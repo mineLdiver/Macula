@@ -1,0 +1,21 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.mine_diver.glsl.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+  ],
+  "server": [
+  ],
+  "client": [
+    "Mixinclass_66",
+    "MixinGameRenderer",
+    "MixinLivingEntityRenderer",
+    "MixinTessellator",
+    "MixinTileRenderer",
+    "MixinWorldRenderer"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
