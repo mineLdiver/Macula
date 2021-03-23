@@ -10,19 +10,24 @@
     "mine_diver"
   ],
   "contact": {
-    "homepage": "https://glass-launcher.net/",
-    "sources": "https://github.com/calmilamsy/BIN-fabric-example-mod"
+    "homepage": "https://glass-repo.net/repo/mod/glsl",
+    "sources": "https://github.com/mineLdiver/GLSL",
+    "issues": "https://github.com/mineLdiver/GLSL/issues"
   },
 
   "license": "CC0-1.0",
   "icon": "assets/glsl/icon.png",
 
-  "environment": "*",
+  "environment": "client",
   "mixins": [
     "glsl.mixins.json"
   ],
 
   "depends": {
     "minecraft": "1.0.0-beta.7.3"
+  },
+
+  "custom": {
+    "modmenu:clientsideOnly": true
   }
 }
