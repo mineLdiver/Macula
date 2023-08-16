@@ -9,6 +9,8 @@ import net.minecraft.client.render.TextRenderer;
 import net.minecraft.client.resource.language.I18n;
 import org.lwjgl.input.Keyboard;
 
+import java.awt.*;
+import java.io.IOException;
 import java.util.List;
 
 public class ShadersScreen extends ScreenBase {
@@ -124,6 +126,13 @@ public class ShadersScreen extends ScreenBase {
                 }
             }
             sob.updateButtonText();
+        }
+        if (button.id == SHADERS_FOLDER_BUTTON_ID) {
+            try {
+                Desktop.getDesktop().open(Shaders.shaderPacksDir);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
         if (button.id == DONE_BUTTON_ID) {
             Shaders.storeConfig();
