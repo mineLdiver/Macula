@@ -48,8 +48,7 @@ class ScrollableShaders extends ScrollableBase {
         this.selectedIndex = index;
         this.lastClickedCached = this.lastClicked;
         Shaders.setShaderPack(this.shaderslist.get(index));
-//        Shaders.uninit();
-//        this.shadersGui.updateButtons();
+        shadersGui.updateButtons();
     }
 
     @Override

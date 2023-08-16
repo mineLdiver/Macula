@@ -3,6 +3,7 @@
 package net.mine_diver.glsl;
 
 import net.fabricmc.loader.api.FabricLoader;
+import net.mine_diver.glsl.option.EnumShaderOption;
 import net.mine_diver.glsl.util.MinecraftInstance;
 import net.minecraft.block.BlockBase;
 import net.minecraft.client.Minecraft;
@@ -155,6 +156,9 @@ public class Shaders {
     public static final String glVersionString = GL11.glGetString(GL11.GL_VERSION);
     public static final String glVendorString = GL11.glGetString(GL11.GL_VENDOR);
     public static final String glRendererString = GL11.glGetString(GL11.GL_RENDERER);
+
+    // config stuff
+    public static float configShadowResMul = 1;
 
     private Shaders() {
     }
@@ -750,8 +754,8 @@ public class Shaders {
                         colorAttachments = 8;
                     } else if (line.matches("/\\* SHADOWRES:[0-9]+ \\*/.*")) {
                         String[] parts = line.split("([: ])", 4);
-                        System.out.println("Shadow map resolution: " + parts[2]);
-                        shadowMapWidth = shadowMapHeight = Integer.parseInt(parts[2]);
+                        shadowMapWidth = shadowMapHeight = Math.round(Integer.parseInt(parts[2]) * configShadowResMul);
+                        System.out.println("Shadow map resolution: " + shadowMapWidth);
                     } else if (line.matches("/\\* SHADOWFOV:[0-9.]+ \\*/.*")) {
                         String[] parts = line.split("([: ])", 4);
                         System.out.println("Shadow map field of view: " + parts[2]);
