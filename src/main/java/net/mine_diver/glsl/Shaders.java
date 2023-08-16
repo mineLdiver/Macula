@@ -150,6 +150,12 @@ public class Shaders {
     public static String currentShaderName = "OFF";
     public static boolean shaderPackLoaded = false;
 
+    // debug info
+
+    public static final String glVersionString = GL11.glGetString(GL11.GL_VERSION);
+    public static final String glVendorString = GL11.glGetString(GL11.GL_VENDOR);
+    public static final String glRendererString = GL11.glGetString(GL11.GL_RENDERER);
+
     private Shaders() {
     }
 

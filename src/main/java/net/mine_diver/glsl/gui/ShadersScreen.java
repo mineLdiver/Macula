@@ -1,5 +1,6 @@
 package net.mine_diver.glsl.gui;
 
+import net.mine_diver.glsl.Shaders;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.ScreenBase;
 import net.minecraft.client.gui.widgets.Button;
@@ -46,6 +47,12 @@ public class ShadersScreen extends ScreenBase {
     public void render(int i, int j, float f) {
         renderBackground();
         shaderList.render(i, j, f);
+        drawTextWithShadowCentred(textManager, "Shaders", width / 2, 15, 0xffffff);
+        String debug = "OpenGL: " + Shaders.glVersionString + ", " + Shaders.glVendorString + ", " + Shaders.glRendererString;
+        int debugWidth = textManager.getTextWidth(debug);
+        if (debugWidth < width - 5)
+            drawTextWithShadowCentred(textManager, debug, width / 2, height - 40, 0x808080);
+        else drawTextWithShadow(textManager, debug, 5, height - 40, 0x808080);
         super.render(i, j, f);
     }
 
