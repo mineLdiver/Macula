@@ -13,6 +13,7 @@ public class ShadersScreen extends ScreenBase {
             DONE_BUTTON_ID = "glsl:done".hashCode();
 
     private final ScreenBase parent;
+    private int updateTimer = -1;
     private ScrollableShaders shaderList;
 
     public ShadersScreen(ScreenBase parent) {
@@ -47,6 +48,10 @@ public class ShadersScreen extends ScreenBase {
     public void render(int i, int j, float f) {
         renderBackground();
         shaderList.render(i, j, f);
+        if (this.updateTimer <= 0) {
+            this.shaderList.updateList();
+            this.updateTimer += 20;
+        }
         drawTextWithShadowCentred(textManager, "Shaders", width / 2, 15, 0xffffff);
         String debug = "OpenGL: " + Shaders.glVersionString + ", " + Shaders.glVendorString + ", " + Shaders.glRendererString;
         int debugWidth = textManager.getTextWidth(debug);
@@ -54,6 +59,12 @@ public class ShadersScreen extends ScreenBase {
             drawTextWithShadowCentred(textManager, debug, width / 2, height - 40, 0x808080);
         else drawTextWithShadow(textManager, debug, 5, height - 40, 0x808080);
         super.render(i, j, f);
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+        updateTimer--;
     }
 
     Minecraft getMc() {
