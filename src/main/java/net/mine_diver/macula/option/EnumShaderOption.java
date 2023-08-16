@@ -1,4 +1,4 @@
-package net.mine_diver.glsl.option;
+package net.mine_diver.macula.option;
 
 public enum EnumShaderOption {
     SHADOW_RES_MUL("Shadow Quality", "shadowResMul", "1.0");

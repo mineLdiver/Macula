@@ -1,26 +1,26 @@
 {
   "schemaVersion": 1,
-  "id": "glsl",
+  "id": "macula",
   "version": "${version}",
 
-  "name": "GLSL",
-  "description": "GLSL shaders for b1.7.3 backported from r1.3",
+  "name": "Macula",
+  "description": "Shaders for old Minecraft",
   "authors": [
     "daxnitro",
     "mine_diver"
   ],
   "contact": {
-    "homepage": "https://glass-repo.net/repo/mod/glsl",
-    "sources": "https://github.com/mineLdiver/GLSL",
-    "issues": "https://github.com/mineLdiver/GLSL/issues"
+    "homepage": "https://glass-repo.net/repo/mod/macula",
+    "sources": "https://github.com/mineLdiver/Macula",
+    "issues": "https://github.com/mineLdiver/Macula/issues"
   },
 
   "license": "CC0-1.0",
-  "icon": "assets/glsl/icon.png",
+  "icon": "assets/macula/icon.png",
 
   "environment": "client",
   "mixins": [
-    "glsl.mixins.json"
+    "macula.mixins.json"
   ],
 
   "depends": {

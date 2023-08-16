@@ -1,7 +1,7 @@
-package net.mine_diver.glsl.mixin;
+package net.mine_diver.macula.mixin;
 
-import net.mine_diver.glsl.Shaders;
-import net.mine_diver.glsl.util.TessellatorAccessor;
+import net.mine_diver.macula.Shaders;
+import net.mine_diver.macula.util.TessellatorAccessor;
 import net.minecraft.block.BlockBase;
 import net.minecraft.class_66;
 import net.minecraft.client.render.Tessellator;

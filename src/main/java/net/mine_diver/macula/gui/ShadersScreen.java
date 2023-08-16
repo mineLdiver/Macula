@@ -1,7 +1,7 @@
-package net.mine_diver.glsl.gui;
+package net.mine_diver.macula.gui;
 
-import net.mine_diver.glsl.Shaders;
-import net.mine_diver.glsl.option.EnumShaderOption;
+import net.mine_diver.macula.Shaders;
+import net.mine_diver.macula.option.EnumShaderOption;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.ScreenBase;
 import net.minecraft.client.gui.widgets.Button;
@@ -13,8 +13,8 @@ import java.util.List;
 
 public class ShadersScreen extends ScreenBase {
     private static final int
-            SHADERS_FOLDER_BUTTON_ID = "glsl:shaders_folder".hashCode(),
-            DONE_BUTTON_ID = "glsl:done".hashCode();
+            SHADERS_FOLDER_BUTTON_ID = "macula:shaders_folder".hashCode(),
+            DONE_BUTTON_ID = "macula:done".hashCode();
 
     private static final float[] QUALITY_MULTIPLIERS = new float[] {
             0.5F, 0.6F, 0.6666667F, 0.75F, 0.8333333F, 0.9F, 1, 1.1666666F, 1.3333334F, 1.5F, 1.6666666F, 1.8F, 2

@@ -1,10 +1,9 @@
 // Code written by daxnitro.  Do what you want with it but give me some credit if you use it in whole or in part.
 
-package net.mine_diver.glsl;
+package net.mine_diver.macula;
 
 import net.fabricmc.loader.api.FabricLoader;
-import net.mine_diver.glsl.option.EnumShaderOption;
-import net.mine_diver.glsl.util.MinecraftInstance;
+import net.mine_diver.macula.util.MinecraftInstance;
 import net.minecraft.block.BlockBase;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Living;

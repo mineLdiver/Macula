@@ -1,7 +1,7 @@
-package net.mine_diver.glsl.gui;
+package net.mine_diver.macula.gui;
 
-import net.mine_diver.glsl.Shaders;
-import net.mine_diver.glsl.mixin.ScrollableBaseAccessor;
+import net.mine_diver.macula.Shaders;
+import net.mine_diver.macula.mixin.ScrollableBaseAccessor;
 import net.minecraft.client.gui.widgets.ScrollableBase;
 import net.minecraft.client.render.Tessellator;
 
@@ -68,6 +68,6 @@ class ScrollableShaders extends ScrollableBase {
             s = "(internal)";
         }
 
-        this.shadersGui.drawTextWithShadowCentred(shadersGui.getTextRenderer(), s, ((ScrollableBaseAccessor) this).glsl_getWidth() / 2, posY + 1, 0xe0e0e0);
+        this.shadersGui.drawTextWithShadowCentred(shadersGui.getTextRenderer(), s, ((ScrollableBaseAccessor) this).macula_getWidth() / 2, posY + 1, 0xe0e0e0);
     }
 }

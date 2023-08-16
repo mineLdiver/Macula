@@ -1,7 +1,7 @@
-package net.mine_diver.glsl.gui;
+package net.mine_diver.macula.gui;
 
-import net.mine_diver.glsl.Shaders;
-import net.mine_diver.glsl.option.EnumShaderOption;
+import net.mine_diver.macula.Shaders;
+import net.mine_diver.macula.option.EnumShaderOption;
 import net.minecraft.client.gui.widgets.Button;
 import net.minecraft.client.resource.language.I18n;
 
