@@ -4,30 +4,31 @@ package net.mine_diver.glsl;
 
 import net.minecraft.block.BlockBase;
 import net.minecraft.client.Minecraft;
-
-import java.nio.*;
-
 import net.minecraft.entity.Living;
 import net.minecraft.item.ItemInstance;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
-import static org.lwjgl.opengl.EXTFramebufferObject.*;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.InputStreamReader;
+import java.nio.ByteBuffer;
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
+import java.util.Objects;
+
+import static org.lwjgl.opengl.ARBFragmentShader.GL_FRAGMENT_SHADER_ARB;
 import static org.lwjgl.opengl.ARBShaderObjects.*;
-import static org.lwjgl.opengl.ARBVertexShader.*;
-import static org.lwjgl.opengl.ARBFragmentShader.*;
-import static org.lwjgl.opengl.ARBTextureFloat.*;
+import static org.lwjgl.opengl.ARBTextureFloat.GL_RGB32F_ARB;
+import static org.lwjgl.opengl.ARBVertexShader.GL_VERTEX_SHADER_ARB;
+import static org.lwjgl.opengl.ARBVertexShader.glBindAttribLocationARB;
+import static org.lwjgl.opengl.EXTFramebufferObject.*;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.*;
 import static org.lwjgl.opengl.GL20.*;
-import static org.lwjgl.util.glu.GLU.*;
-import org.lwjgl.BufferUtils;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.File;
-import java.io.FileReader;
+import static org.lwjgl.util.glu.GLU.gluPerspective;
 
 public class Shaders {
-
     private Shaders() {
     }
 
@@ -39,7 +40,7 @@ public class Shaders {
         colorAttachments = 4;
 
         for (int i = 0; i < ProgramCount; ++i) {
-            if (programNames[i] == "") {
+            if (programNames[i].equals("")) {
                 programs[i] = 0;
             } else {
                 programs[i] = setupProgram("shaders/" + programNames[i] + ".vsh", "shaders/" + programNames[i] + ".fsh");
@@ -85,7 +86,7 @@ public class Shaders {
         glEnable(cap);
         if (cap == GL_TEXTURE_2D) {
             if (activeProgram == ProgramBasic) {
-                useProgram(lightmapEnabled ? ProgramTexturedLit : ProgramTextured);
+                useProgram(ProgramTextured);
             }
         } else if (cap == GL_FOG) {
             fogEnabled = true;
@@ -102,20 +103,6 @@ public class Shaders {
         } else if (cap == GL_FOG) {
             fogEnabled = false;
             setProgramUniform1i("fogMode", 0);
-        }
-    }
-
-    public static void enableLightmap() {
-        lightmapEnabled = true;
-        if (activeProgram == ProgramTextured) {
-            useProgram(ProgramTexturedLit);
-        }
-    }
-
-    public static void disableLightmap() {
-        lightmapEnabled = false;
-        if (activeProgram == ProgramTexturedLit) {
-            useProgram(ProgramTextured);
         }
     }
 
@@ -229,7 +216,7 @@ public class Shaders {
 
         if (shadowPassInterval > 0 && --shadowPassCounter <= 0) {
             // do shadow pass
-            preShadowPassThirdPersonView = mc.options.thirdPerson;
+            boolean preShadowPassThirdPersonView = mc.options.thirdPerson;
 
             mc.options.thirdPerson = true;
 
@@ -240,7 +227,7 @@ public class Shaders {
 
             useProgram(ProgramNone);
 
-            mc.gameRenderer.method_1841(f, l);
+            mc.gameRenderer.delta(f, l);
 
             glFlush();
 
@@ -251,7 +238,7 @@ public class Shaders {
 
         glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, dfb);
 
-        useProgram(lightmapEnabled ? ProgramTexturedLit : ProgramTextured);
+        useProgram(ProgramTextured);
     }
 
     public static void endRender() {
@@ -381,11 +368,11 @@ public class Shaders {
         glActiveTexture(GL_TEXTURE3);
         glBindTexture(GL_TEXTURE_2D, mc.textureManager.getTextureId("/terrain_s.png"));
         glActiveTexture(GL_TEXTURE0);
-        FloatBuffer projection = BufferUtils.createFloatBuffer(16);
+//        FloatBuffer projection = BufferUtils.createFloatBuffer(16);
     }
 
     public static void endTerrain() {
-        useProgram(lightmapEnabled ? ProgramTexturedLit : ProgramTextured);
+        useProgram(ProgramTextured);
     }
 
     public static void beginWater() {
@@ -398,7 +385,7 @@ public class Shaders {
     }
 
     public static void endWater() {
-        useProgram(lightmapEnabled ? ProgramTexturedLit : ProgramTextured);
+        useProgram(ProgramTextured);
     }
 
     public static void beginHand() {
@@ -408,7 +395,7 @@ public class Shaders {
 
     public static void endHand() {
         glDisable(GL_BLEND);
-        useProgram(lightmapEnabled ? ProgramTexturedLit : ProgramTextured);
+        useProgram(ProgramTextured);
 
         if (isShadowPass) {
             glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, sfb); // was set to 0 in beginWeather()
@@ -426,7 +413,7 @@ public class Shaders {
 
     public static void endWeather() {
         glDisable(GL_BLEND);
-        useProgram(lightmapEnabled ? ProgramTexturedLit : ProgramTextured);
+        useProgram(ProgramTextured);
     }
 
     private static void resize() {
@@ -571,10 +558,8 @@ public class Shaders {
         glGetFloat(GL_MODELVIEW_MATRIX, modelView);
         float[] mv = new float[16];
         modelView.get(mv, 0, 16);
-        float[] sunPos = multiplyMat4xVec4(mv, new float[]{0.0F, 100.0F, 0.0F, 0.0F});
-        sunPosition = sunPos;
-        float[] moonPos = multiplyMat4xVec4(mv, new float[]{0.0F, -100.0F, 0.0F, 0.0F});
-        moonPosition = moonPos;
+        sunPosition = multiplyMat4xVec4(mv, new float[]{0.0F, 100.0F, 0.0F, 0.0F});
+        moonPosition = multiplyMat4xVec4(mv, new float[]{0.0F, -100.0F, 0.0F, 0.0F});
     }
 
     private static float[] multiplyMat4xVec4(float[] ta, float[] tb) {
@@ -635,15 +620,15 @@ public class Shaders {
         if (vertShader == 0) {
             return 0;
         }
-        String vertexCode = "";
+        StringBuilder vertexCode = new StringBuilder();
         String line;
 
         BufferedReader reader;
         try {
-            reader = new BufferedReader(new InputStreamReader((Shaders.class).getResourceAsStream(filename)));
+            reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(Shaders.class.getResourceAsStream(filename))));
         } catch (Exception e) {
             try {
-                reader = new BufferedReader(new FileReader(new File(filename)));
+                reader = new BufferedReader(new FileReader(filename));
             } catch (Exception e2) {
                 System.out.println("Couldn't open " + filename + "!");
                 glDeleteObjectARB(vertShader);
@@ -653,7 +638,7 @@ public class Shaders {
 
         try {
             while ((line = reader.readLine()) != null) {
-                vertexCode += line + "\n";
+                vertexCode.append(line).append("\n");
                 if (line.matches("attribute [_a-zA-Z0-9]+ mc_Entity.*")) {
                     entityAttrib = 10;
                 }
@@ -664,7 +649,13 @@ public class Shaders {
             return 0;
         }
 
-        glShaderSourceARB(vertShader, vertexCode);
+        try {
+            reader.close();
+        } catch (Exception e) {
+            System.out.println("Couldn't close " + filename + "!");
+        }
+
+        glShaderSourceARB(vertShader, vertexCode.toString());
         glCompileShaderARB(vertShader);
         printLogInfo(vertShader);
         return vertShader;
@@ -675,15 +666,15 @@ public class Shaders {
         if (fragShader == 0) {
             return 0;
         }
-        String fragCode = "";
+        StringBuilder fragCode = new StringBuilder();
         String line;
 
         BufferedReader reader;
         try {
-            reader = new BufferedReader(new InputStreamReader((Shaders.class).getResourceAsStream(filename)));
+            reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(Shaders.class.getResourceAsStream(filename))));
         } catch (Exception e) {
             try {
-                reader = new BufferedReader(new FileReader(new File(filename)));
+                reader = new BufferedReader(new FileReader(filename));
             } catch (Exception e2) {
                 System.out.println("Couldn't open " + filename + "!");
                 glDeleteObjectARB(fragShader);
@@ -693,7 +684,7 @@ public class Shaders {
 
         try {
             while ((line = reader.readLine()) != null) {
-                fragCode += line + "\n";
+                fragCode.append(line).append("\n");
                 if (colorAttachments < 5 && line.matches("uniform [ _a-zA-Z0-9]+ gaux1;.*")) {
                     colorAttachments = 5;
                 } else if (colorAttachments < 6 && line.matches("uniform [ _a-zA-Z0-9]+ gaux2;.*")) {
@@ -704,16 +695,16 @@ public class Shaders {
                     shadowPassInterval = 1;
                     colorAttachments = 8;
                 } else if (line.matches("/\\* SHADOWRES:[0-9]+ \\*/.*")) {
-                    String[] parts = line.split("(:| )", 4);
+                    String[] parts = line.split("([: ])", 4);
                     System.out.println("Shadow map resolution: " + parts[2]);
                     shadowMapWidth = shadowMapHeight = Integer.parseInt(parts[2]);
-                } else if (line.matches("/\\* SHADOWFOV:[0-9\\.]+ \\*/.*")) {
-                    String[] parts = line.split("(:| )", 4);
+                } else if (line.matches("/\\* SHADOWFOV:[0-9.]+ \\*/.*")) {
+                    String[] parts = line.split("([: ])", 4);
                     System.out.println("Shadow map field of view: " + parts[2]);
                     shadowMapFOV = Float.parseFloat(parts[2]);
                     shadowMapIsOrtho = false;
-                } else if (line.matches("/\\* SHADOWHPL:[0-9\\.]+ \\*/.*")) {
-                    String[] parts = line.split("(:| )", 4);
+                } else if (line.matches("/\\* SHADOWHPL:[0-9.]+ \\*/.*")) {
+                    String[] parts = line.split("([: ])", 4);
                     System.out.println("Shadow map half-plane: " + parts[2]);
                     shadowMapHalfPlane = Float.parseFloat(parts[2]);
                     shadowMapIsOrtho = true;
@@ -725,7 +716,13 @@ public class Shaders {
             return 0;
         }
 
-        glShaderSourceARB(fragShader, fragCode);
+        try {
+            reader.close();
+        } catch (Exception e) {
+            System.out.println("Couldn't close " + filename + "!");
+        }
+
+        glShaderSourceARB(fragShader, fragCode.toString());
         glCompileShaderARB(fragShader);
         printLogInfo(fragShader);
         return fragShader;
@@ -862,11 +859,10 @@ public class Shaders {
     private static float[] sunPosition = new float[3];
     private static float[] moonPosition = new float[3];
 
-    private static float[] clearColor = new float[3];
+    private static final float[] clearColor = new float[3];
 
     private static float rainStrength = 0.0f;
 
-    private static boolean lightmapEnabled = false;
     private static boolean fogEnabled = true;
 
     public static int entityAttrib = -1;
@@ -881,8 +877,8 @@ public class Shaders {
     private static FloatBuffer modelView = null;
     private static FloatBuffer modelViewInverse = null;
 
-    private static double[] previousCameraPosition = new double[3];
-    private static double[] cameraPosition = new double[3];
+    private static final double[] previousCameraPosition = new double[3];
+    private static final double[] cameraPosition = new double[3];
 
     // Shadow stuff
 
@@ -895,8 +891,6 @@ public class Shaders {
     private static boolean shadowMapIsOrtho = true;
 
     private static int shadowPassCounter  = 0;
-
-    private static boolean preShadowPassThirdPersonView;
 
     private static boolean isShadowPass = false;
 
@@ -940,7 +934,7 @@ public class Shaders {
     public final static int ProgramFinal        = 9;
     public final static int ProgramCount        = 10;
 
-    private static String[] programNames = new String[] {
+    private static final String[] programNames = new String[] {
             "",
             "gbuffers_basic",
             "gbuffers_textured",
@@ -953,7 +947,7 @@ public class Shaders {
             "final",
     };
 
-    private static int[] programBackups = new int[] {
+    private static final int[] programBackups = new int[] {
             ProgramNone,            // none
             ProgramNone,            // basic
             ProgramBasic,           // textured
@@ -966,5 +960,5 @@ public class Shaders {
             ProgramNone,            // final
     };
 
-    private static int[] programs = new int[ProgramCount];
+    private static final int[] programs = new int[ProgramCount];
 }

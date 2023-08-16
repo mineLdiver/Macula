@@ -8,12 +8,12 @@
   "server": [
   ],
   "client": [
-    "Mixinclass_66",
-    "MixinGameRenderer",
-    "MixinLivingEntityRenderer",
-    "MixinTessellator",
-    "MixinTileRenderer",
-    "MixinWorldRenderer"
+    "ChunkBuilderMixin",
+    "GameRendererMixin",
+    "LivingEntityRendererMixin",
+    "TessellatorMixin",
+    "BlockRenderManagerMixin",
+    "WorldRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

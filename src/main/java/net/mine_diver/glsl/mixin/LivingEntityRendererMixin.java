@@ -7,16 +7,25 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(LivingEntityRenderer.class)
-public class MixinLivingEntityRenderer {
-
-    @SuppressWarnings("UnresolvedMixinReference")
-    @Redirect(method = "*", at = @At(value = "INVOKE", target = "Lorg/lwjgl/opengl/GL11;glEnable(I)V"))
+public class LivingEntityRendererMixin {
+    @Redirect(
+            method = "*",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lorg/lwjgl/opengl/GL11;glEnable(I)V"
+            )
+    )
     private void onGlEnable(int i) {
         Shaders.glEnableWrapper(i);
     }
 
-    @SuppressWarnings("UnresolvedMixinReference")
-    @Redirect(method = "*", at = @At(value = "INVOKE", target = "Lorg/lwjgl/opengl/GL11;glDisable(I)V"))
+    @Redirect(
+            method = "*",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lorg/lwjgl/opengl/GL11;glDisable(I)V"
+            )
+    )
     private void onGlDisable(int i) {
         Shaders.glDisableWrapper(i);
     }
