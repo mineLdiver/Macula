@@ -1,7 +1,7 @@
 package net.mine_diver.macula.gui;
 
 import net.mine_diver.macula.Shaders;
-import net.mine_diver.macula.option.EnumShaderOption;
+import net.mine_diver.macula.option.ShaderOption;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.ScreenBase;
 import net.minecraft.client.gui.widgets.Button;
@@ -84,7 +84,7 @@ public class ShadersScreen extends ScreenBase {
         final int shaderListWidth = width - btnWidth - 20;
         shaderList = new ScrollableShaders(this, shaderListWidth, height, baseY, height - 50, 16);
         //noinspection unchecked,PointlessArithmeticExpression
-        buttons.add(new ShaderOptionButton(EnumShaderOption.SHADOW_RES_MUL, btnX, 0 * stepY + baseY, btnWidth, btnHeight));
+        buttons.add(new ShaderOptionButton(ShaderOption.SHADOW_RES_MUL, btnX, 0 * stepY + baseY, btnWidth, btnHeight));
         final int btnFolderWidth = Math.min(150, shaderListWidth / 2 - 10);
         final int xFolder = shaderListWidth / 4 - btnFolderWidth / 2;
         final int yFolder = height - 25;
@@ -125,8 +125,10 @@ public class ShadersScreen extends ScreenBase {
             }
             sob.updateButtonText();
         }
-        if (button.id == DONE_BUTTON_ID)
+        if (button.id == DONE_BUTTON_ID) {
+            Shaders.storeConfig();
             minecraft.openScreen(parent);
+        }
     }
 
     @Override

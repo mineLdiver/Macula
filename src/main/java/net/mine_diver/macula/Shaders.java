@@ -3,6 +3,7 @@
 package net.mine_diver.macula;
 
 import net.fabricmc.loader.api.FabricLoader;
+import net.mine_diver.macula.option.ShaderOption;
 import net.mine_diver.macula.util.MinecraftInstance;
 import net.minecraft.block.BlockBase;
 import net.minecraft.client.Minecraft;
@@ -11,15 +12,13 @@ import net.minecraft.item.ItemInstance;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -157,7 +156,18 @@ public class Shaders {
     public static final String glRendererString = GL11.glGetString(GL11.GL_RENDERER);
 
     // config stuff
+    public static final File
+            configDir = FabricLoader.getInstance().getConfigDir().resolve("macula").toFile(),
+            shaderConfigFile = new File(configDir, "shaders.properties");
+    public static final Properties shadersConfig = new Properties();
     public static float configShadowResMul = 1;
+
+    static {
+        if (!configDir.exists())
+            if (!configDir.mkdirs())
+                throw new RuntimeException();
+        loadConfig();
+    }
 
     private Shaders() {
     }
@@ -323,6 +333,7 @@ public class Shaders {
         if (isShadowPass) return;
 
         if (!isInitialized) init();
+        if (!shaderPackLoaded) return;
         if (MinecraftInstance.get().actualWidth != renderWidth || MinecraftInstance.get().actualHeight != renderHeight) resize();
 
         if (shadowPassInterval > 0 && --shadowPassCounter <= 0) {
@@ -938,9 +949,65 @@ public class Shaders {
         return arraylist2;
     }
 
+    public static void loadConfig() {
+        try {
+            if (!shaderPacksDir.exists()) shaderPacksDir.mkdir();
+        } catch (Exception ignored) {}
+
+        shadersConfig.setProperty(ShaderOption.SHADER_PACK.getPropertyKey(), "");
+
+        if (shaderConfigFile.exists())
+            try (FileReader filereader = new FileReader(shaderConfigFile)) {
+                shadersConfig.load(filereader);
+            } catch (Exception ignored) {}
+
+        if (!shaderConfigFile.exists()) try {
+            storeConfig();
+        } catch (Exception ignored) {
+        }
+
+        for (ShaderOption option : ShaderOption.values())
+            setEnumShaderOption(option, shadersConfig.getProperty(option.getPropertyKey(), option.getValueDefault()));
+
+//        loadShaderPack();
+    }
+
+    private static void setEnumShaderOption(ShaderOption eso, String str) {
+        if (str == null) str = eso.getValueDefault();
+
+        switch (eso) {
+            case SHADOW_RES_MUL -> {
+                try {
+                    configShadowResMul = Float.parseFloat(str);
+                } catch (NumberFormatException e) {
+                    configShadowResMul = 1;
+                }
+            }
+            case SHADER_PACK -> currentShaderName = str;
+            default -> throw new IllegalArgumentException("Unknown option: " + eso);
+        }
+    }
+
+    public static void storeConfig() {
+
+        for (ShaderOption enumshaderoption : ShaderOption.values())
+            shadersConfig.setProperty(enumshaderoption.getPropertyKey(), getEnumShaderOption(enumshaderoption));
+
+        try (FileWriter filewriter = new FileWriter(shaderConfigFile)) {
+            shadersConfig.store(filewriter, null);
+        } catch (Exception ignored) {}
+    }
+
+    public static String getEnumShaderOption(ShaderOption eso) {
+        return switch (eso) {
+            case SHADOW_RES_MUL -> Float.toString(configShadowResMul);
+            case SHADER_PACK -> currentShaderName;
+        };
+    }
+
     public static void setShaderPack(String shaderPack) {
         currentShaderName = shaderPack;
-//        shadersConfig.setProperty(EnumShaderOption.SHADER_PACK.getPropertyKey(), par1name);
+        shadersConfig.setProperty(ShaderOption.SHADER_PACK.getPropertyKey(), shaderPack);
         loadShaderPack();
     }
 

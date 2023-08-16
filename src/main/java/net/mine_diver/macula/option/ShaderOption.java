@@ -1,13 +1,14 @@
 package net.mine_diver.macula.option;
 
-public enum EnumShaderOption {
-    SHADOW_RES_MUL("Shadow Quality", "shadowResMul", "1.0");
-    
+public enum ShaderOption {
+    SHADOW_RES_MUL("Shadow Quality", "shadowResMul", "1.0"),
+    SHADER_PACK("options.macula:shaderPack", "shaderPack", "OFF");
+
     private final String resourceKey;
     private final String propertyKey;
     private final String valueDefault;
     
-    EnumShaderOption(final String resourceKey, final String propertyKey, final String valueDefault) {
+    ShaderOption(final String resourceKey, final String propertyKey, final String valueDefault) {
         this.resourceKey = resourceKey;
         this.propertyKey = propertyKey;
         this.valueDefault = valueDefault;
