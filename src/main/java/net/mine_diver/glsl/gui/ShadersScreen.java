@@ -1,0 +1,59 @@
+package net.mine_diver.glsl.gui;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screen.ScreenBase;
+import net.minecraft.client.gui.widgets.Button;
+import net.minecraft.client.render.TextRenderer;
+import net.minecraft.client.resource.language.I18n;
+
+public class ShadersScreen extends ScreenBase {
+    private static final int
+            SHADERS_FOLDER_BUTTON_ID = "glsl:shaders_folder".hashCode(),
+            DONE_BUTTON_ID = "glsl:done".hashCode();
+
+    private final ScreenBase parent;
+    private ScrollableShaders shaderList;
+
+    public ShadersScreen(ScreenBase parent) {
+        this.parent = parent;
+    }
+
+    @Override
+    public void init() {
+        super.init();
+        final int btnWidth = 120;
+        final int btnHeight = 20;
+        final int baseY = 30;
+        final int shaderListWidth = this.width - btnWidth - 20;
+        this.shaderList = new ScrollableShaders(this, shaderListWidth, this.height, baseY, this.height - 50, 16);
+        final int btnFolderWidth = Math.min(150, shaderListWidth / 2 - 10);
+        final int xFolder = shaderListWidth / 4 - btnFolderWidth / 2;
+        final int yFolder = this.height - 25;
+        //noinspection unchecked
+        buttons.add(new Button(SHADERS_FOLDER_BUTTON_ID, xFolder, yFolder, btnFolderWidth - 22 + 1, btnHeight, "Shaders Folder"));
+        //noinspection unchecked
+        buttons.add(new Button(DONE_BUTTON_ID, shaderListWidth / 4 * 3 - btnFolderWidth / 2, this.height - 25, btnFolderWidth, btnHeight, I18n.translate("gui.done")));
+    }
+
+    @Override
+    protected void buttonClicked(Button button) {
+        super.buttonClicked(button);
+        if (button.id == DONE_BUTTON_ID)
+            minecraft.openScreen(parent);
+    }
+
+    @Override
+    public void render(int i, int j, float f) {
+        renderBackground();
+        shaderList.render(i, j, f);
+        super.render(i, j, f);
+    }
+
+    Minecraft getMc() {
+        return minecraft;
+    }
+
+    TextRenderer getTextRenderer() {
+        return textManager;
+    }
+}

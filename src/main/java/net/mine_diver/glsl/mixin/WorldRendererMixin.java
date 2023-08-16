@@ -2,6 +2,7 @@ package net.mine_diver.glsl.mixin;
 
 import net.mine_diver.glsl.Shaders;
 import net.minecraft.client.render.WorldRenderer;
+import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -19,6 +20,7 @@ public class WorldRendererMixin {
             )
     )
     private void onGetStarBrightness(float par1, CallbackInfo ci) {
+        if (!Shaders.shaderPackLoaded) return;
         Shaders.setCelestialPosition();
     }
 
@@ -30,6 +32,10 @@ public class WorldRendererMixin {
             )
     )
     private void onGlEnable(int i) {
+        if (!Shaders.shaderPackLoaded) {
+            GL11.glEnable(i);
+            return;
+        }
         Shaders.glEnableWrapper(i);
     }
 
@@ -41,6 +47,10 @@ public class WorldRendererMixin {
             )
     )
     private void onGlDisable(int i) {
+        if (!Shaders.shaderPackLoaded) {
+            GL11.glDisable(i);
+            return;
+        }
         Shaders.glDisableWrapper(i);
     }
 }

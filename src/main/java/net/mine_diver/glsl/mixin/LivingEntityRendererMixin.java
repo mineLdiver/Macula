@@ -2,6 +2,7 @@ package net.mine_diver.glsl.mixin;
 
 import net.mine_diver.glsl.Shaders;
 import net.minecraft.client.render.entity.LivingEntityRenderer;
+import org.lwjgl.opengl.GL11;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -16,6 +17,10 @@ public class LivingEntityRendererMixin {
             )
     )
     private void onGlEnable(int i) {
+        if (!Shaders.shaderPackLoaded) {
+            GL11.glEnable(i);
+            return;
+        }
         Shaders.glEnableWrapper(i);
     }
 
@@ -27,6 +32,10 @@ public class LivingEntityRendererMixin {
             )
     )
     private void onGlDisable(int i) {
+        if (!Shaders.shaderPackLoaded) {
+            GL11.glDisable(i);
+            return;
+        }
         Shaders.glDisableWrapper(i);
     }
 }

@@ -16,6 +16,7 @@ public abstract class GameRendererMixin {
             at = @At("HEAD")
     )
     private void beginRender(float var1, long var2, CallbackInfo ci) {
+        if (!Shaders.shaderPackLoaded) return;
         Shaders.beginRender(minecraft, var1, var2);
     }
 
@@ -24,6 +25,7 @@ public abstract class GameRendererMixin {
             at = @At("RETURN")
     )
     private void endRender(CallbackInfo ci) {
+        if (!Shaders.shaderPackLoaded) return;
         Shaders.endRender();
     }
 
@@ -35,6 +37,7 @@ public abstract class GameRendererMixin {
             )
     )
     private void setClearColor(float l, long par2, CallbackInfo ci) {
+        if (!Shaders.shaderPackLoaded) return;
         Shaders.setClearColor(field_2346, field_2347, field_2348);
     }
 
@@ -47,6 +50,7 @@ public abstract class GameRendererMixin {
             )
     )
     private void setCamera(float l, long par2, CallbackInfo ci) {
+        if (!Shaders.shaderPackLoaded) return;
         Shaders.setCamera(l);
     }
 
@@ -60,6 +64,7 @@ public abstract class GameRendererMixin {
             )
     )
     private void injectTerrainBegin(float l, long par2, CallbackInfo ci) {
+        if (!Shaders.shaderPackLoaded) return;
         Shaders.beginTerrain();
     }
 
@@ -74,6 +79,7 @@ public abstract class GameRendererMixin {
             )
     )
     private void injectTerrainEnd(float l, long par2, CallbackInfo ci) {
+        if (!Shaders.shaderPackLoaded) return;
         Shaders.endTerrain();
     }
 
@@ -87,6 +93,7 @@ public abstract class GameRendererMixin {
             )
     )
     private void injectWaterBegin1(float l, long par2, CallbackInfo ci) {
+        if (!Shaders.shaderPackLoaded) return;
         Shaders.beginWater();
     }
 
@@ -101,6 +108,7 @@ public abstract class GameRendererMixin {
             )
     )
     private void injectWaterEnd1(float l, long par2, CallbackInfo ci) {
+        if (!Shaders.shaderPackLoaded) return;
         Shaders.endWater();
     }
 
@@ -114,6 +122,7 @@ public abstract class GameRendererMixin {
             )
     )
     private void injectWaterBegin2(float l, long par2, CallbackInfo ci) {
+        if (!Shaders.shaderPackLoaded) return;
         Shaders.beginWater();
     }
 
@@ -128,6 +137,7 @@ public abstract class GameRendererMixin {
             )
     )
     private void injectWaterEnd2(float l, long par2, CallbackInfo ci) {
+        if (!Shaders.shaderPackLoaded) return;
         Shaders.endWater();
     }
 
@@ -139,6 +149,7 @@ public abstract class GameRendererMixin {
             )
     )
     private void injectBeginWater3(float l, long par2, CallbackInfo ci) {
+        if (!Shaders.shaderPackLoaded) return;
         Shaders.beginWater();
     }
 
@@ -151,6 +162,7 @@ public abstract class GameRendererMixin {
             )
     )
     private void injectEndWater3(float l, long par2, CallbackInfo ci) {
+        if (!Shaders.shaderPackLoaded) return;
         Shaders.endWater();
     }
 
@@ -162,6 +174,7 @@ public abstract class GameRendererMixin {
             )
     )
     private void injectBeginWeather(float l, long par2, CallbackInfo ci) {
+        if (!Shaders.shaderPackLoaded) return;
         Shaders.beginWeather();
     }
 
@@ -174,6 +187,7 @@ public abstract class GameRendererMixin {
             )
     )
     private void injectEndWeather(float l, long par2, CallbackInfo ci) {
+        if (!Shaders.shaderPackLoaded) return;
         Shaders.endWeather();
     }
 
@@ -185,6 +199,7 @@ public abstract class GameRendererMixin {
             )
     )
     private void injectBeginHand(float l, long par2, CallbackInfo ci) {
+        if (!Shaders.shaderPackLoaded) return;
         Shaders.beginHand();
     }
 
@@ -197,6 +212,7 @@ public abstract class GameRendererMixin {
             )
     )
     private void injectEndHand(float l, long par2, CallbackInfo ci) {
+        if (!Shaders.shaderPackLoaded) return;
         Shaders.endHand();
     }
 

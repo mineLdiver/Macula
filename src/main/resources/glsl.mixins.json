@@ -8,12 +8,14 @@
   "server": [
   ],
   "client": [
+    "BlockRenderManagerMixin",
     "ChunkBuilderMixin",
     "GameRendererMixin",
     "LivingEntityRendererMixin",
+    "ScrollableBaseAccessor",
     "TessellatorMixin",
-    "BlockRenderManagerMixin",
-    "WorldRendererMixin"
+    "WorldRendererMixin",
+    "gui.VideoSettingsScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
