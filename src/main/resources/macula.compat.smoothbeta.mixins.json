@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "net.mine_diver.macula.compat.smoothbeta.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "client": [
+    "GlUniformAccessor",
+    "RenderRegionMixin",
+    "ShadersMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

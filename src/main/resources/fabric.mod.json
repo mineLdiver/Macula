@@ -19,6 +19,11 @@
   "icon": "assets/macula/icon.png",
 
   "environment": "client",
+  "entrypoints": {
+    "preLaunch": [
+      "net.mine_diver.macula.Macula"
+    ]
+  },
   "mixins": [
     "macula.mixins.json"
   ],
