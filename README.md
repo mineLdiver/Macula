@@ -6,9 +6,7 @@ Requirements: Babric (https://github.com/babric/prism-instance)
 
 Compatibility: Incompatible with SmoothBeta
 
-### Download Links:
-* Modrinth: https://modrinth.com/mod/macula
-* GitHub: https://github.com/mineLdiver/Macula
+Modrinth: https://modrinth.com/mod/macula
 
 Info: Shaders mod for Minecraft Beta 1.7.3 updated to include more features, like dynamic shadows.
 
