@@ -1,13 +1,17 @@
 # Macula (client-side only mod)
 
 Mod Version: 1.1
+
 Requirements: Babric (https://github.com/babric/prism-instance)
-Compatibility:
-Incompatible with SmoothBeta
-Download Links:
-Modrinth: https://modrinth.com/mod/macula
-GitHub: https://github.com/mineLdiver/Macula
+
+Compatibility: Incompatible with SmoothBeta
+
+### Download Links:
+* Modrinth: https://modrinth.com/mod/macula
+* GitHub: https://github.com/mineLdiver/Macula
+
 Info: Shaders mod for Minecraft Beta 1.7.3 updated to include more features, like dynamic shadows.
+
 Previously known as just GLSL shaders.
 
 ### Common Error
