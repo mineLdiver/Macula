@@ -13,33 +13,33 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(VideoSettings.class)
 public class VideoSettingsScreenMixin extends ScreenBase {
-    @Unique
-    private static final int MACULA$SHADERS_BUTTON_ID = "macula:shaders".hashCode();
+//    @Unique
+//    private static final int MACULA$SHADERS_BUTTON_ID = "macula:shaders".hashCode();
 
-    @ModifyVariable(
-            method = "init",
-            at = @At(
-                    value = "CONSTANT",
-                    args = "stringValue=gui.done"
-            ),
-            index = 2
-    )
-    private int macula_addShadersButton(int y) {
-        //noinspection unchecked
-        buttons.add(new Button(MACULA$SHADERS_BUTTON_ID, width / 2 - 155 + y % 2 * 160, height / 6 + 24 * (y >> 1), 150, 20, "Shaders..."));
-        return y + 1;
-    }
+//    @ModifyVariable(
+//            method = "init",
+//            at = @At(
+//                    value = "CONSTANT",
+//                    args = "stringValue=gui.done"
+//            ),
+//            index = 2
+//    )
+//    private int macula_addShadersButton(int y) {
+//        //noinspection unchecked
+//        buttons.add(new Button(MACULA$SHADERS_BUTTON_ID, width / 2 - 155 + y % 2 * 160, height / 6 + 24 * (y >> 1), 150, 20, "Shaders..."));
+//        return y + 1;
+//    }
 
-    @Inject(
-            method = "buttonClicked",
-            at = @At("HEAD"),
-            cancellable = true
-    )
-    private void macula_shadersButtonClicked(Button button, CallbackInfo ci) {
-        if (button.id == MACULA$SHADERS_BUTTON_ID) {
-            minecraft.options.saveOptions();
-            minecraft.openScreen(new ShadersScreen(this));
-            ci.cancel();
-        }
-    }
+//    @Inject(
+//            method = "buttonClicked",
+//            at = @At("HEAD"),
+//            cancellable = true
+//    )
+//    private void macula_shadersButtonClicked(Button button, CallbackInfo ci) {
+//        if (button.id == MACULA$SHADERS_BUTTON_ID) {
+//            minecraft.options.saveOptions();
+//            minecraft.openScreen(new ShadersScreen(this));
+//            ci.cancel();
+//        }
+//    }
 }
