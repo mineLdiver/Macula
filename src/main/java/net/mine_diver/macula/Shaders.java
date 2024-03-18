@@ -1008,7 +1008,11 @@ public class Shaders {
     public static void setShaderPack(String shaderPack) {
         currentShaderName = shaderPack;
         shadersConfig.setProperty(ShaderOption.SHADER_PACK.getPropertyKey(), shaderPack);
-        loadShaderPack();
+        if (null != MinecraftInstance.get()) {
+            if (null != MinecraftInstance.get().player) {
+                loadShaderPack();
+            }
+        }
     }
 
     public static void loadShaderPack() {
