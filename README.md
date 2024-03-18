@@ -1,6 +1,6 @@
 # Macula (client-side only mod)
 
-Mod Version: 1.1
+Mod Version: 1.1.1
 
 Requirements: Babric (https://github.com/babric/prism-instance)
 
