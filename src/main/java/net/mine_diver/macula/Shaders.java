@@ -976,15 +976,18 @@ public class Shaders {
         if (str == null) str = eso.getValueDefault();
 
         switch (eso) {
-            case SHADOW_RES_MUL -> {
+            case SHADOW_RES_MUL:
                 try {
                     configShadowResMul = Float.parseFloat(str);
                 } catch (NumberFormatException e) {
                     configShadowResMul = 1;
                 }
-            }
-            case SHADER_PACK -> currentShaderName = str;
-            default -> throw new IllegalArgumentException("Unknown option: " + eso);
+                break;
+            case SHADER_PACK:
+                currentShaderName = str;
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown option: " + eso);
         }
     }
 
@@ -999,10 +1002,13 @@ public class Shaders {
     }
 
     public static String getEnumShaderOption(ShaderOption eso) {
-        return switch (eso) {
-            case SHADOW_RES_MUL -> Float.toString(configShadowResMul);
-            case SHADER_PACK -> currentShaderName;
-        };
+        switch (eso) {
+            case SHADOW_RES_MUL:
+                return Float.toString(configShadowResMul);
+            case SHADER_PACK:
+                return currentShaderName;
+        }
+        return null;
     }
 
     public static void setShaderPack(String shaderPack) {

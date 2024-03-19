@@ -50,7 +50,7 @@ public class TessellatorMixin implements TessellatorAccessor {
         if (!Shaders.shaderPackLoaded) return;
         if (Shaders.entityAttrib >= 0) {
             ARBVertexProgram.glEnableVertexAttribArrayARB(Shaders.entityAttrib);
-            ARBVertexProgram.glVertexAttribPointerARB(Shaders.entityAttrib, 2, false, false, 4, shadersShortBuffer.position(0));
+            ARBVertexProgram.glVertexAttribPointerARB(Shaders.entityAttrib, 2, false, false, 4, (ShortBuffer) shadersShortBuffer.position(0));
         }
     }
 
