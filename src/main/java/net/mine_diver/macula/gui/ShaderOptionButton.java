@@ -19,10 +19,12 @@ public class ShaderOptionButton extends Button {
     
     private static String getButtonText(final ShaderOption eso) {
         final String nameText = I18n.translate(eso.getResourceKey()) + ": ";
-        return switch (eso) {
-            case SHADOW_RES_MUL -> nameText + ShadersScreen.toStringQuality(Shaders.configShadowResMul);
-            default -> throw new IllegalStateException("Unexpected value: " + eso);
-        };
+        switch (eso) {
+            case SHADOW_RES_MUL:
+                return nameText + ShadersScreen.toStringQuality(Shaders.configShadowResMul);
+            default:
+                throw new IllegalStateException("Unexpected value: " + eso);
+        }
     }
     
     public void updateButtonText() {

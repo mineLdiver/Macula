@@ -118,12 +118,13 @@ public class ShadersScreen extends ScreenBase {
     protected void buttonClicked(Button button) {
         super.buttonClicked(button);
         if (!button.active) return;
-        if (button instanceof ShaderOptionButton sob) {
+        if (button instanceof ShaderOptionButton) {
+            ShaderOptionButton sob = (ShaderOptionButton) button;
             switch (sob.getEnumShaderOption()) {
-                case SHADOW_RES_MUL -> {
+                case SHADOW_RES_MUL:
                     Shaders.configShadowResMul = this.getNextValue(Shaders.configShadowResMul, QUALITY_MULTIPLIERS, QUALITY_MULTIPLIER_DEFAULT, !rightClick, Keyboard.isKeyDown(Keyboard.KEY_LSHIFT));
                     Shaders.loadShaderPack();
-                }
+                    break;
             }
             sob.updateButtonText();
         }
